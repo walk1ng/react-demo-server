@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -78,7 +79,18 @@ func init() {
 
 	// db
 	// 连接数据库
-	db, err = sql.Open("mysql", "itheima:123456@tcp(192.168.0.107:3306)/itcast")
+
+	// get mysql user and password from env
+	mysqlUser := os.Getenv("MYSQL_USER")
+	mysqlPassword := os.Getenv("MYSQL_PASSWORD")
+	mysqlDB := os.Getenv("MYSQL_DB")
+	mysqlSvc := os.Getenv("MYSQL_SVC")
+
+	dbConnStr := fmt.Sprintf("%s:%s@tcp(%s)/%s", mysqlUser, mysqlPassword, mysqlSvc, mysqlDB)
+	fmt.Println(dbConnStr)
+
+	// db, err = sql.Open("mysql", "root:your-root-password@tcp(192.168.0.107:3306)/itcast")
+	db, err = sql.Open("mysql", dbConnStr)
 	if err != nil {
 		panic(err.Error())
 	}
