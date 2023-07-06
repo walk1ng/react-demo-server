@@ -97,7 +97,11 @@ func getK8sConfig() (*rest.Config, error) {
 
 	cfg, err = clientcmd.BuildConfigFromFlags("", cfgPath)
 	if err != nil {
-		return nil, err
+		fmt.Println("try in cluster mode")
+		cfg, err = rest.InClusterConfig()
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return cfg, nil

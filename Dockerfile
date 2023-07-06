@@ -3,10 +3,16 @@ FROM golang:1.20-alpine AS builder
 
 WORKDIR /app
 
-COPY . .
 
 ENV GO111MODULE=on \
     GOPROXY=https://goproxy.cn,direct
+
+
+COPY go.mod .
+COPY go.sum .
+RUN go mod tidy && go mod download
+
+COPY . .
 RUN go build -o main .
 
 # 第二阶段：运行时镜像
