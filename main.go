@@ -120,6 +120,7 @@ func main() {
 	r.POST("/api/login", loginHandler)
 	r.GET("/api/pods", PodHandler)
 	r.GET("/api/namespaces", nsHandler)
+	r.GET("/ping", PingHandler)
 
 	// r.OPTIONS("/api/students", func(ctx *gin.Context) {
 	// 	return
@@ -705,6 +706,13 @@ func nsHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, &Resp{
 		Code: 999,
 		Data: nsInfo,
+	})
+}
+
+func PingHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, &Resp{
+		Code: 999,
+		Data: "pong!",
 	})
 }
 
